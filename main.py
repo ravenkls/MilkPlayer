@@ -1,7 +1,6 @@
 import sys
 import os
 import re
-import ctypes
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
@@ -60,13 +59,14 @@ class MainWindow(QtWidgets.QMainWindow):
         if event.key() == QtCore.Qt.Key_P:
             self.media_player.query('eminem lucky you')
             self.media_player.query('Lucky Luke FEEL Bass Boosted')
-            
-
         
 
 if __name__ == '__main__':
-    app_id = u'me.ravenkls.milkplayer.one'
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
+    app_id = 'me.ravenkls.milkplayer.one'
+
+    if sys.platform == 'win32':
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(app_id)
 
     app = QtWidgets.QApplication([])
     window = MainWindow()

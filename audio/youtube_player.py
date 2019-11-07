@@ -1,6 +1,7 @@
 import re
 import os
 import json
+import sys
 
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaPlaylist, QMediaContent
 from PyQt5 import QtCore
@@ -18,7 +19,12 @@ class YTMediaPlayer(QMediaPlayer):
         self._playlist = QMediaPlaylist()
         self._api_key = api_key
         self._download_threads = []
-        self._cache_path = Path(os.getenv('appdata')) / 'MilkPlayer'
+
+        if sys.platform == 'win32':
+            self._cache_path = Path(os.getenv('appdata')) / 'MilkPlayer'
+        else:
+            self._cache_path = Path.cwd() / 'cache'
+
         self._metadata_file = self._cache_path / 'metadata.json'
         self.setPlaylist(self._playlist)
         self.currentMediaChanged.connect(self._set_nowplaying)
